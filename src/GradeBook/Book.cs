@@ -97,22 +97,14 @@ namespace GradeBook
             }
             set
             {
-                if (IsNullOrEmpty(value) || IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("The category cannot be empty");
-                }
-                else if (CanConvertToDouble(value))
-                {
-                    throw new FormatException("The category cannot be a numeric value");
-                }
-                else
+                if (MatchStringPattern(value))
                 {
                     category = value;
                 }
             }
         }
         private string name;
-        public string Name 
+        public string Name
         {
             get
             {
@@ -120,15 +112,7 @@ namespace GradeBook
             }
             set
             {
-                if (IsNullOrEmpty(value) || IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("The book name cannot be empty");
-                }
-                else if(CanConvertToDouble(value))
-                {
-                    throw new FormatException("The book name cannot be a numeric value");
-                }
-                else
+                if(MatchStringPattern(value))
                 {
                     name = value;
                 }
@@ -168,6 +152,22 @@ namespace GradeBook
             else
             {
                 return false;
+            }
+        }
+
+        public bool MatchStringPattern(string value)
+        {
+            if (IsNullOrEmpty(value) || IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException($"Empty values are not valid for this field");
+            }
+            else if(CanConvertToDouble(value))
+            {
+                throw new FormatException($"Numeric values are not valid for this field");
+            }
+            else
+            {
+                return true;
             }
         }
     }

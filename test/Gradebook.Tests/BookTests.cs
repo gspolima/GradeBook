@@ -48,7 +48,7 @@ namespace Gradebook.Tests
             try
             {
                 var book = new Book("     ");
-                Assert.Equal("default", book.Name);
+                Assert.Equal(null, book.Name);
             }
             catch (ArgumentException)
             {
@@ -61,7 +61,7 @@ namespace Gradebook.Tests
             try
             {
                 var book = new Book("");
-                Assert.Equal("default", book.Name);
+                Assert.Equal(null, book.Name);
             }
             catch (ArgumentException)
             {

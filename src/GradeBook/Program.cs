@@ -47,10 +47,6 @@ namespace GradeBook
                     Console.WriteLine($"A fatal error occurred. Application halted. {generalException.Source}");
                     throw;
                 }
-                finally
-                {
-                    Console.Write("==> ");
-                }
             }
         }
 
