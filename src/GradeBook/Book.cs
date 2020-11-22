@@ -48,13 +48,9 @@ namespace GradeBook
 
         public void AddGrade(double grade)
         {
-            if (grade <= 100 && grade >= 0)
+            if (MatchGradePattern(grade))
             {
                 grades.Add(grade);   
-            }
-            else
-            {
-                throw new ArgumentException($"Invalid value provided for {nameof(grade)}");
             }
         }
 
@@ -164,6 +160,18 @@ namespace GradeBook
             else if(CanConvertToDouble(value))
             {
                 throw new FormatException($"Numeric values are not valid for this field");
+            }
+            else
+            {
+                return true;
+            }
+        }
+    
+        public bool MatchGradePattern(double grade)
+        {
+            if (grade < 0 || grade > 100)
+            {
+                throw new ArgumentException($"Invalid value provided for {nameof(grade)}");
             }
             else
             {

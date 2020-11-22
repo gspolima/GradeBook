@@ -1,29 +1,29 @@
 using System;
 using Xunit;
 using GradeBook;
+using System.Collections.Generic;
 
 namespace Gradebook.Tests
 {
     public class BookTests
     {
         [Fact]
-        public void CannotAddGradeOutOfRange()
+        public void AddGradeOnlyWithinBoundaries()
         {
             var book = new Book();
-
-            try
+            var listOfGrades = new List<double>() { 81, 99, -2, 105, 156215614561};
+            
+            for (int index = 0; index < listOfGrades.Count; index++)
             {
-                book.AddGrade(99);
-                book.AddGrade(105);
+                try
+                {
+                    book.AddGrade(listOfGrades[index]);
+                }
+                catch (ArgumentException)
+                {
+                }
             }
-            catch (Exception)
-            {     
-                Console.WriteLine($"Value outside of bounds");
-            }
-
-            var expected = 1;
-            var actual = book.GradesCount;
-            Assert.Equal(expected, actual);
+            Assert.Equal(2, book.GradesCount);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace Gradebook.Tests
             book.AddGrade(79.41);
             book.AddGrade(91);
             var stats = book.GetStatistics();
-            
+
             Assert.Equal('B', stats.Letter);
         }
     }
