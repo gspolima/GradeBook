@@ -14,14 +14,12 @@ namespace GradeBook
             grades = new List<double>();
             Name = name;
         }
-
         public Book(string name, string category)
         {
             grades = new List<double>();
             Name = name;
             Category = category;
         }
-
         public char SetLetterGrade(double average)
         {
             char letter;
@@ -45,15 +43,19 @@ namespace GradeBook
             }
             return letter;
         }
-
         public void AddGrade(double grade)
         {
             if (MatchGradePattern(grade))
             {
-                grades.Add(grade);   
+                grades.Add(grade);
+                if (GradeAdded != null)
+                {
+                    GradeAdded(this, new EventArgs());
+                }
             }
         }
-
+        public event GradeAddedDelegate GradeAdded;
+        public event StatisticsComputedDelegate StatisticsComputed;
         public Statistics GetStatistics()
         {
             var results = new Statistics();
@@ -66,9 +68,13 @@ namespace GradeBook
             }
             results.Average = results.Sum / GradesCount;
             results.Letter = SetLetterGrade(results.Average);
+
+            if (StatisticsComputed != null)
+            {
+                StatisticsComputed(this, new EventArgs());
+            }
             return results;
         }
-
         public void ShowStatistics(Statistics results)
         {
             Console.WriteLine($"The average is {results.Average:N2}");
@@ -76,12 +82,70 @@ namespace GradeBook
             Console.WriteLine($"The lowest grade is {results.Lowest:N1}");
             Console.WriteLine($"The letter grade is {results.Letter}");
         }
-
         public void ShowBookOwnership()
         {
             Console.WriteLine($"This book belongs to {this.Name}");
         }
-
+        public bool IsNullOrEmpty(string value)
+        {
+            if (String.IsNullOrEmpty(value))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool IsNullOrWhiteSpace(string value)
+        {
+            if (String.IsNullOrWhiteSpace(value))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool CanConvertToDouble(string value)
+        {
+            if (Double.TryParse(value, out double output))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool MatchStringPattern(string value)
+        {
+            if (IsNullOrEmpty(value) || IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException($"Empty values are not valid for this field");
+            }
+            else if(CanConvertToDouble(value))
+            {
+                throw new FormatException($"Numeric values are not valid for this field");
+            }
+            else
+            {
+                return true;
+            }
+        }    
+        public bool MatchGradePattern(double grade)
+        {
+            if (grade < 0 || grade > 100)
+            {
+                throw new ArgumentException($"Invalid value provided for {nameof(grade)}");
+            }
+            else
+            {
+                return true;
+            }
+        }
+    
         public int GradesCount { get => grades.Count; }
         protected List<double> grades;
         private string category;
@@ -112,70 +176,6 @@ namespace GradeBook
                 {
                     name = value;
                 }
-            }
-        }
-
-        public bool IsNullOrEmpty(string value)
-        {
-            if (String.IsNullOrEmpty(value))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool IsNullOrWhiteSpace(string value)
-        {
-            if (String.IsNullOrWhiteSpace(value))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    
-        public bool CanConvertToDouble(string value)
-        {
-            if (Double.TryParse(value, out double output))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool MatchStringPattern(string value)
-        {
-            if (IsNullOrEmpty(value) || IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException($"Empty values are not valid for this field");
-            }
-            else if(CanConvertToDouble(value))
-            {
-                throw new FormatException($"Numeric values are not valid for this field");
-            }
-            else
-            {
-                return true;
-            }
-        }
-    
-        public bool MatchGradePattern(double grade)
-        {
-            if (grade < 0 || grade > 100)
-            {
-                throw new ArgumentException($"Invalid value provided for {nameof(grade)}");
-            }
-            else
-            {
-                return true;
             }
         }
     }

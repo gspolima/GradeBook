@@ -8,14 +8,28 @@ namespace GradeBook
         static void Main(string[] args)
         {
             var book = new Book();
+            book.GradeAdded += OnGradeAdded;
+            book.StatisticsComputed += OnStatisticsComputed;
+            
             SetBookName(book);
             SetBookCategory(book);
             GetGradesByUserInput(book);
+
             var statistics = book.GetStatistics();
             book.ShowBookOwnership();
             book.ShowStatistics(statistics);
         }
-        
+
+        static void OnGradeAdded(object sender, EventArgs args)
+        {
+            Console.WriteLine("[+] Grade successfully added");
+        }
+
+        static void OnStatisticsComputed(object sender, EventArgs args)
+        {
+            Console.WriteLine("[#] The book statistics have been computed");
+        }
+
         static void GetGradesByUserInput(Book book)
         {
             for (var done = false; done == false;)
@@ -26,7 +40,7 @@ namespace GradeBook
                     var input = Console.ReadLine();
                     if (input.ToUpper() == "Q")
                     {
-                        Console.WriteLine("Finishing input...");
+                        Console.WriteLine("----------Finishing input----------");
                         done = true;
                     }
                     else
@@ -44,7 +58,7 @@ namespace GradeBook
                 }
                 catch (Exception generalException)
                 {
-                    Console.WriteLine($"A fatal error occurred. Application halted. {generalException.Source}");
+                    Console.WriteLine($"A fatal error occurred {generalException.Source}");
                     throw;
                 }
             }
@@ -54,7 +68,7 @@ namespace GradeBook
         {
             Console.WriteLine("Enter the book name");
             for (var done = false; done == false;)
-            {                
+            {
                 try
                 {
                     book.Name = Console.ReadLine();
@@ -88,7 +102,7 @@ namespace GradeBook
                 catch (ArgumentException argumentException)
                 {
                     Console.WriteLine(argumentException.Message);
-                }  
+                }
             }
         }
     }
