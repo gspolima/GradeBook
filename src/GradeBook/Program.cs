@@ -7,7 +7,7 @@ namespace GradeBook
     {
         static void Main(string[] args)
         {
-            var book = new InMemoryBook();
+            IBook book = new DiskBook();
             book.GradeAdded += OnGradeAdded;
             book.StatisticsComputed += OnStatisticsComputed;
 
@@ -85,7 +85,7 @@ namespace GradeBook
             }
         }
 
-        private static void SetBookCategory(InMemoryBook book)
+        private static void SetBookCategory(IBook book)
         {
             Console.WriteLine("Enter the book category");
             for (var done = false; done == false;)

@@ -8,7 +8,17 @@ namespace GradeBook
 
         Statistics GetStatistics();
 
+        void ShowBookOwnership();
+
+        void ShowStatistics(Statistics statistics);
+
+        bool MatchGradePattern(double grade);
+
         string Name { get; set; }
+
+        string Category { get; set; }
+
+        int GradesCount { get; }
 
         event GradeAddedDelegate GradeAdded;
 

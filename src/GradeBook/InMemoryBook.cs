@@ -82,50 +82,8 @@ namespace GradeBook
             return results;
         }
         
-        public void ShowStatistics(Statistics results)
-        {
-            Console.WriteLine($"The average is {results.Average:N2}");
-            Console.WriteLine($"The highest grade is {results.Highest:N1}");
-            Console.WriteLine($"The lowest grade is {results.Lowest:N1}");
-            Console.WriteLine($"The letter grade is {results.Letter}");
-        }
-        
-        public void ShowBookOwnership()
-        {
-            Console.WriteLine($"This book belongs to {base.Name}");
-        }   
-        
-        public bool MatchGradePattern(double grade)
-        {
-            if (grade < 0 || grade > 100)
-            {
-                throw new ArgumentException($"Invalid value provided for {nameof(grade)}");
-            }
-            else
-            {
-                return true;
-            }
-        }
-        
-        public int GradesCount { get => grades.Count; }
+        public override int GradesCount { get => grades.Count; }
         
         protected List<double> grades;
-        
-        private string category;
-        
-        public string Category 
-        { 
-            get 
-            {
-                return category;
-            }
-            set
-            {
-                if (MatchStringPattern(value))
-                {
-                    category = value;
-                }
-            }
-        }
     }
 }
