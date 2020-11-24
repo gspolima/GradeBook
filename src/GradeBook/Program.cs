@@ -7,10 +7,10 @@ namespace GradeBook
     {
         static void Main(string[] args)
         {
-            var book = new Book();
+            var book = new InMemoryBook();
             book.GradeAdded += OnGradeAdded;
             book.StatisticsComputed += OnStatisticsComputed;
-            
+
             SetBookName(book);
             SetBookCategory(book);
             GetGradesByUserInput(book);
@@ -20,17 +20,17 @@ namespace GradeBook
             book.ShowStatistics(statistics);
         }
 
-        static void OnGradeAdded(object sender, EventArgs args)
+        private static void OnGradeAdded(object sender, EventArgs args)
         {
             Console.WriteLine("[+] Grade successfully added");
         }
 
-        static void OnStatisticsComputed(object sender, EventArgs args)
+        private static void OnStatisticsComputed(object sender, EventArgs args)
         {
             Console.WriteLine("[#] The book statistics have been computed");
         }
 
-        static void GetGradesByUserInput(Book book)
+        private static void GetGradesByUserInput(IBook book)
         {
             for (var done = false; done == false;)
             {
@@ -64,7 +64,7 @@ namespace GradeBook
             }
         }
 
-        static void SetBookName(Book book)
+        private static void SetBookName(IBook book)
         {
             Console.WriteLine("Enter the book name");
             for (var done = false; done == false;)
@@ -85,7 +85,7 @@ namespace GradeBook
             }
         }
 
-        static void SetBookCategory(Book book)
+        private static void SetBookCategory(InMemoryBook book)
         {
             Console.WriteLine("Enter the book category");
             for (var done = false; done == false;)

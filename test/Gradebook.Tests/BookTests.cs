@@ -10,7 +10,7 @@ namespace Gradebook.Tests
         [Fact]
         public void AddGradeOnlyWithinBoundaries()
         {
-            var book = new Book();
+            var book = new InMemoryBook();
             var listOfGrades = new List<double>() { 81, 99, -2, 105, 156215614561};
             
             for (int index = 0; index < listOfGrades.Count; index++)
@@ -30,7 +30,7 @@ namespace Gradebook.Tests
         public void AssertAverageGrade()
         {
             // Arrange
-            var book = new Book();
+            var book = new InMemoryBook();
             // Act
             book.AddGrade(50);
             book.AddGrade(90);
@@ -47,7 +47,7 @@ namespace Gradebook.Tests
         {
             try
             {
-                var book = new Book("     ");
+                var book = new InMemoryBook("     ");
                 Assert.Equal(null, book.Name);
             }
             catch (ArgumentException)
@@ -60,7 +60,7 @@ namespace Gradebook.Tests
         {
             try
             {
-                var book = new Book("");
+                var book = new InMemoryBook("");
                 Assert.Equal(null, book.Name);
             }
             catch (ArgumentException)
@@ -71,7 +71,7 @@ namespace Gradebook.Tests
         [Fact]
         public void AssignCorrectLetterGrade()
         {
-            var book = new Book();
+            var book = new InMemoryBook();
 
             book.AddGrade(86);
             book.AddGrade(79.41);
