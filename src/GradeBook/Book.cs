@@ -29,8 +29,6 @@ namespace GradeBook
             }
         }
 
-        public abstract int GradesCount { get; }
-
         public abstract event GradeAddedDelegate GradeAdded;
 
         public abstract event StatisticsComputedDelegate StatisticsComputed;

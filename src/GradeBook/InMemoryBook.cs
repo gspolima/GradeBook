@@ -22,30 +22,6 @@ namespace GradeBook
             Category = category;
         }
         
-        public char SetLetterGrade(double average)
-        {
-            char letter;
-            switch (average)
-            {
-                case var avg when avg >= 90.0:
-                    letter = 'A';
-                    break;
-                case var avg when avg >= 80.0:
-                    letter = 'B';
-                    break;
-                case var avg when avg >= 70.0:
-                    letter = 'C';
-                    break;
-                case var avg when avg >= 60.0:
-                    letter = 'D';
-                    break;
-                default:
-                    letter = 'F';
-                    break;
-            }
-            return letter;
-        }
-        
         public override void AddGrade(double grade)
         {
             if (MatchGradePattern(grade))
@@ -64,25 +40,23 @@ namespace GradeBook
         
         public override Statistics GetStatistics()
         {
-            var results = new Statistics();
+            var statistics = new Statistics();
 
-            for (int index = 0; index < grades.Count; index++)
+            for (int i = 0; i < grades.Count; i++)
             {
-                results.Highest = Math.Max(results.Highest, grades[index]);
-                results.Lowest = Math.Min(results.Lowest, grades[index]);
-                results.Sum += grades[index];
+                statistics.SetHighestGrade(grades[i]);
+                statistics.SetLowestGrade(grades[i]);
+                statistics.IncrementSum(grades[i]);
+                statistics.IncrementGradesCount();
             }
-            results.Average = results.Sum / GradesCount;
-            results.Letter = SetLetterGrade(results.Average);
+            statistics.SetLetterGrade(statistics.Average);
 
             if (StatisticsComputed != null)
             {
                 StatisticsComputed(this, new EventArgs());
             }
-            return results;
+            return statistics;
         }
-        
-        public override int GradesCount { get => grades.Count; }
         
         protected List<double> grades;
     }

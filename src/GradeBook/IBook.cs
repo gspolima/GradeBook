@@ -18,8 +18,6 @@ namespace GradeBook
 
         string Category { get; set; }
 
-        int GradesCount { get; }
-
         event GradeAddedDelegate GradeAdded;
 
         event StatisticsComputedDelegate StatisticsComputed;

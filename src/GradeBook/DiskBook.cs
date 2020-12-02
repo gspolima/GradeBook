@@ -5,7 +5,6 @@ namespace GradeBook
 {
     public class DiskBook : Book
     {
-        public override int GradesCount => throw new NotImplementedException();
 
         public override event GradeAddedDelegate GradeAdded;
         
@@ -25,7 +24,29 @@ namespace GradeBook
 
         public override Statistics GetStatistics()
         {
-            throw new NotImplementedException();
+            var statistics = new Statistics();
+
+            using(var reader = File.OpenText($"{Name}.txt"))
+            {
+                var line = reader.ReadLine();
+                while (line != null)
+                {
+                    var grade = Double.Parse(line);
+                    statistics.SetHighestGrade(grade);
+                    statistics.SetLowestGrade(grade);
+                    statistics.IncrementSum(grade);
+                    statistics.IncrementGradesCount();
+                    line = reader.ReadLine();
+                }
+            }
+            statistics.SetLetterGrade(statistics.Average);
+
+            if(StatisticsComputed != null)
+            {
+                StatisticsComputed(this, new EventArgs());
+            }
+
+            return statistics;
         }
     }
 }

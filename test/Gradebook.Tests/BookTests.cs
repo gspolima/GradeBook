@@ -11,19 +11,22 @@ namespace Gradebook.Tests
         public void AddGradeOnlyWithinBoundaries()
         {
             var book = new InMemoryBook();
-            var listOfGrades = new List<double>() { 81, 99, -2, 105, 156215614561};
             
-            for (int index = 0; index < listOfGrades.Count; index++)
+            var listOfGrades = new List<double>() { 81, 99, -2};
+            
+            for (int i = 0; i < listOfGrades.Count; i++)
             {
                 try
                 {
-                    book.AddGrade(listOfGrades[index]);
+                    book.AddGrade(listOfGrades[i]);
                 }
                 catch (ArgumentException)
                 {
                 }
             }
-            Assert.Equal(2, book.GradesCount);
+            var stats = book.GetStatistics();
+
+            Assert.Equal(2, stats.Count);
         }
 
         [Fact]
@@ -79,6 +82,33 @@ namespace Gradebook.Tests
             var stats = book.GetStatistics();
 
             Assert.Equal('B', stats.Letter);
+        }
+
+        [Fact]
+        public void ComputeCorrectLowestGrade()
+        {
+            var book = new InMemoryBook();
+
+            book.AddGrade(91);
+            book.AddGrade(93);
+            book.AddGrade(87);
+            var stats = book.GetStatistics();
+
+            Assert.Equal(87, stats.Lowest);
+        }
+
+        [Fact]
+        public void IncrementGradesCounter()
+        {
+            var book = new InMemoryBook();
+
+            book.AddGrade(85);
+            book.AddGrade(87);
+            book.AddGrade(71);
+            book.AddGrade(99);
+            var stats = book.GetStatistics();
+
+            Assert.Equal(4, stats.Count);
         }
     }
 }
