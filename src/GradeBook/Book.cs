@@ -41,7 +41,7 @@ namespace GradeBook
         {
             if (grade < 0 || grade > 100)
             {
-                throw new ArgumentException($"Invalid value provided for {nameof(grade)}");
+                throw new ArgumentException($"[!] {grade} is not a valid value for {nameof(grade)}");
             }
             else
             {

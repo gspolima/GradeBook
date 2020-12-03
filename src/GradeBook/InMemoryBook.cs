@@ -28,9 +28,7 @@ namespace GradeBook
             {
                 grades.Add(grade);
                 if (GradeAdded != null)
-                {
                     GradeAdded(this, new EventArgs());
-                }
             }
         }
         
@@ -52,9 +50,7 @@ namespace GradeBook
             statistics.SetLetterGrade(statistics.Average);
 
             if (StatisticsComputed != null)
-            {
                 StatisticsComputed(this, new EventArgs());
-            }
             return statistics;
         }
         

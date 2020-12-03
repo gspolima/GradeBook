@@ -34,7 +34,7 @@ namespace GradeBook
         {
             for (var done = false; done == false;)
             {
-                Console.WriteLine("Enter a grade or type 'Q' to quit and start the computation");
+                Console.WriteLine("-> Enter a grade or type 'Q' to quit and start the computation");
                 try
                 {
                     var input = Console.ReadLine();
@@ -66,7 +66,7 @@ namespace GradeBook
 
         private static void SetBookName(IBook book)
         {
-            Console.WriteLine("Enter the book name");
+            Console.WriteLine("Enter the book name:");
             for (var done = false; done == false;)
             {
                 try
@@ -87,7 +87,7 @@ namespace GradeBook
 
         private static void SetBookCategory(IBook book)
         {
-            Console.WriteLine("Enter the book category");
+            Console.WriteLine("Enter the book category:");
             for (var done = false; done == false;)
             {
                 try

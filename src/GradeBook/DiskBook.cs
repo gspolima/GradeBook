@@ -12,21 +12,29 @@ namespace GradeBook
 
         public override void AddGrade(double grade)
         {
-            using (var writer = File.AppendText($"{base.Name}.txt"))
+            try
             {
-                writer.WriteLine(grade);
-                if (GradeAdded != null)
+                if (MatchGradePattern(grade))
                 {
-                    GradeAdded(this, new EventArgs());
+                    using (var writer = File.AppendText($"{base.Name}.txt"))
+                    {
+                        writer.WriteLine(grade);
+                        if (GradeAdded != null)
+                            GradeAdded(this, new EventArgs());
+                    } // this 'using' syntax will, behind the scenes, perform a Dispose() call and free up resources
                 }
-            } // this 'using' syntax will, behind the scenes, perform a Dispose() call and free up resources
+            }
+            catch (ArgumentException argumentException)
+            {
+                Console.WriteLine(argumentException.Message);
+            }
         }
 
         public override Statistics GetStatistics()
         {
             var statistics = new Statistics();
-
-            using(var reader = File.OpenText($"{Name}.txt"))
+            
+            using (var reader = File.OpenText($"{Name}.txt"))
             {
                 var line = reader.ReadLine();
                 while (line != null)
@@ -38,14 +46,12 @@ namespace GradeBook
                     statistics.IncrementGradesCount();
                     line = reader.ReadLine();
                 }
-            }
-            statistics.SetLetterGrade(statistics.Average);
+                statistics.SetLetterGrade(statistics.Average);
 
-            if(StatisticsComputed != null)
-            {
-                StatisticsComputed(this, new EventArgs());
+                if (StatisticsComputed != null)
+                    StatisticsComputed(this, new EventArgs());
             }
-
+            
             return statistics;
         }
     }
