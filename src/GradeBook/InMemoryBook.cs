@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ namespace GradeBook
         public InMemoryBook() : base()
         {
             grades = new List<double>();
+
         }
 
         public InMemoryBook(string name) : base(name)
@@ -15,11 +17,9 @@ namespace GradeBook
             grades = new List<double>();
         }
         
-        public InMemoryBook(string name, string category) : base(name)
+        public InMemoryBook(string name, string category) : base(name, category)
         {
             grades = new List<double>();
-            Name = name;
-            Category = category;
         }
         
         public override void AddGrade(double grade)
@@ -32,9 +32,9 @@ namespace GradeBook
             }
         }
         
-        public override event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate? GradeAdded;
         
-        public override event StatisticsComputedDelegate StatisticsComputed;
+        public override event StatisticsComputedDelegate? StatisticsComputed;
         
         public override Statistics GetStatistics()
         {

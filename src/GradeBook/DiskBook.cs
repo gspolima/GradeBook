@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.IO;
 
@@ -5,10 +6,9 @@ namespace GradeBook
 {
     public class DiskBook : Book
     {
-
-        public override event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate? GradeAdded;
         
-        public override event StatisticsComputedDelegate StatisticsComputed;
+        public override event StatisticsComputedDelegate? StatisticsComputed;
 
         public override void AddGrade(double grade)
         {

@@ -1,4 +1,5 @@
 using System;
+#nullable enable
 
 namespace GradeBook
 {
@@ -6,10 +7,16 @@ namespace GradeBook
     {
         public Book() : base()
         {
+            category = "no category";
         }
 
         public Book(string name) : base(name)
         {
+            category = "no category";
+        }
+        public Book(string name, string category) : base(name)
+        {
+            this.category = category;
         }
 
         private string category;
